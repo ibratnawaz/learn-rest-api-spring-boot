@@ -28,7 +28,20 @@ public class ProductService {
         return productRepo.save(product);
     }
 
+    public Product updateProduct(Product productData, int id) {
+        Product product = getProductById(id);
+
+        product.setName(productData.getName());
+        product.setCategory(productData.getCategory());
+        product.setPrice(productData.getPrice());
+        product.setProductAvailable(productData.isProductAvailable());
+        product.setStockQuantity(productData.getStockQuantity());
+
+        return productRepo.save(product);
+    }
+
     public void removeProduct(int id) {
-        productRepo.delete(getProductById(id));
+        Product product = getProductById(id);
+        productRepo.delete(product);
     }
 }
