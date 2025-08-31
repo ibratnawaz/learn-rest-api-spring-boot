@@ -2,6 +2,7 @@ package com.learn.rest_crud.controller;
 
 import com.learn.rest_crud.model.Product;
 import com.learn.rest_crud.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -46,13 +47,13 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Product> addNewProduct(@RequestBody Product newProduct) {
+    public ResponseEntity<Product> addNewProduct(@Valid @RequestBody Product newProduct) {
         Product product = productService.createProduct(newProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @PutMapping("/product/{id}")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable int id) {
+    public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product, @PathVariable int id) {
         return ResponseEntity.status((HttpStatus.OK)).body(productService.updateProduct(product, id));
     }
 
