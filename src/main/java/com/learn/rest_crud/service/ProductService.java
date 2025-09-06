@@ -3,6 +3,7 @@ package com.learn.rest_crud.service;
 import com.learn.rest_crud.exception.ResourceNotFoundException;
 import com.learn.rest_crud.model.Product;
 import com.learn.rest_crud.repo.ProductRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ProductService {
 
     @Autowired
     private ProductRepo productRepo;
 
     public List<Product> getAllProducts() {
+        log.info("ProductService::getAllProducts called!");
         return productRepo.findAll();
     }
 
@@ -41,6 +44,7 @@ public class ProductService {
     }
 
     public void removeProduct(int id) {
+        log.warn("ProductService::removeProduct called for id " + id);
         Product product = getProductById(id);
         productRepo.delete(product);
     }

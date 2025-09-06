@@ -3,6 +3,7 @@ package com.learn.rest_crud.controller;
 import com.learn.rest_crud.model.Product;
 import com.learn.rest_crud.service.ProductService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,13 +14,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@AllArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
+    // Using lombok to auto create the constructor;
+    /*
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+    */
 
 
     @GetMapping("/products")
