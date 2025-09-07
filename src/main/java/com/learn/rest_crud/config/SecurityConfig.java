@@ -25,13 +25,12 @@ public class SecurityConfig {
 
     private UserDetailsService userDetailsService;
 
+    private JwtFilter jwtFilter;
+
     @Bean
     public AuthenticationProvider authProvider() {
-        System.out.println("here - 1");
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        System.out.println("here - 2");
         provider.setUserDetailsService(userDetailsService);
-        System.out.println("here - 3");
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         return provider;
     }
@@ -45,9 +44,21 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public org.springframework.boot.web.servlet.FilterRegistrationBean<JwtFilter> jwtFilterRegistration(JwtFilter filter) {
+        var reg = new org.springframework.boot.web.servlet.FilterRegistrationBean<>(filter);
+        reg.setEnabled(false);
+        return reg;
     }
 }
