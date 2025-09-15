@@ -12,8 +12,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggingAspect {
 
-    @AfterThrowing("execution(* com.learn.rest_crud..*(..))")
-    public void logMethodCrashed(JoinPoint joinPoint) {
+    @AfterThrowing(pointcut = "execution(* com.learn.rest_crud..*(..))", throwing = "e")
+    public void logMethodCrashed(JoinPoint joinPoint, Throwable e) {
         log.warn("method: " + joinPoint.getSignature().getDeclaringTypeName() + "::" + joinPoint.getSignature().getName() + " has thrown some error!");
+        e.printStackTrace();
     }
 }
